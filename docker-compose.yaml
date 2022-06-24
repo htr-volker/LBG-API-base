@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  api:
+    container_name: lbg-api-app
+    image: lbg-api-app:latest
+    build: .
+    ports:
+    - target: 8080
+      published: 80
