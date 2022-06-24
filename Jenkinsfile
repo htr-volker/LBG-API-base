@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+	image_name="htrvolker/lbg-api-app:latest"
+    }
     stages {
 	stage('Test') {
             steps {
@@ -9,8 +12,11 @@ pipeline {
         }
         stage('Build') {
             steps {
-                //
-		sh "echo Build stage"
+		sh """
+		echo "Building image:"
+		docker build -t $image_name .
+		echo
+		"""
             }
         }
         stage('Deploy') {
