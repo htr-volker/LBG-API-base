@@ -3,8 +3,7 @@ pipeline {
     environment {
         APP_NAME="lbg-api-app"
 	TAG="latest"
-	DOCKERHUB_USERNAME=credentials("DOCKERHUB_CREDS_USR")
-	DOCKERHUB_PASSWORD=credentials("DOCKERHUB_CREDS_PSW")
+	DOCKERHUB_CREDS=credentials("DOCKERHUB_CREDS")
     }
     stages {
 	stage('Test') {
@@ -17,17 +16,17 @@ pipeline {
             steps {
 		sh """
 		echo "Building image:"
-		docker build -t ${DOCKERHUB_USERNAME}/${APP_NAME}:${TAG} .
+		docker build -t ${DOCKERHUB_CREDS_USR}/${APP_NAME}:${TAG} .
 		echo
 		"""
             }
         }
 	stage('Push') {
             steps {
-		sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+		sh "docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW"
                 sh """
                 echo "Push image to registry:"
-                docker push ${DOCKERHUB_USERNAME}/${APP_NAME}:${TAG}
+                docker push ${DOCKERHUB_CREDS_USR}/${APP_NAME}:${TAG}
                 echo
                 """
             }
