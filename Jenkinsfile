@@ -19,6 +19,15 @@ pipeline {
 		"""
             }
         }
+	stage('Push') {
+            steps {
+                sh """
+                echo "Push image to registry:"
+                docker push $image_name
+                echo
+                """
+            }
+        }
         stage('Deploy') {
             steps {
                 //
