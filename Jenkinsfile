@@ -1,9 +1,10 @@
 pipeline {
     agent any
     environment {
-        APP_NAME="lbg-api-app"
+        APP_NAME="lbg-api-app-harry"
 	TAG="latest"
-	DOCKERHUB_CREDS=credentials("DOCKERHUB_CREDS")
+	// DOCKERHUB_CREDS=credentials("DOCKERHUB_CREDS")
+	REGISTRY="gcr.io/lbg6-130622"
     }
     stages {
 	stage('Test') {
@@ -16,17 +17,17 @@ pipeline {
             steps {
 		sh """
 		echo "Building image:"
-		docker build -t ${DOCKERHUB_CREDS_USR}/${APP_NAME}:${TAG} .
+		docker build -t ${REGISTRY}/${APP_NAME}:${TAG} .
 		echo
 		"""
             }
         }
 	stage('Push') {
             steps {
-		sh "docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW"
+		// sh "docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW"
                 sh """
                 echo "Push image to registry:"
-                docker push ${DOCKERHUB_CREDS_USR}/${APP_NAME}:${TAG}
+                docker push ${REGISTRY}/${APP_NAME}:${TAG}
                 echo
                 """
             }
