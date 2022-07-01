@@ -49,13 +49,13 @@ app.post('/create', (req,res) => {
     id++;
 
     // insert the item into our Database
-    db.insert(item, (err, item) => {
+    db.insert(item, (err, thisItem) => {
         //if there is an error, send back the error
         if (err) res.send(err);
         // otherwise 201 - Created and the item
-        res.status(201).send(item);
+        res.status(201).send(thisItem);
         //log that item to console
-        console.log(`Created item: ${JSON.stringify(item)}`);
+        console.log(`Created item: ${JSON.stringify(thisItem)}`);
     });
 });
 
